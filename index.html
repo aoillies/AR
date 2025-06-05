@@ -2,23 +2,15 @@
 <html>
   <head>
     <title>AR Video</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
     <style>
       html, body {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        width: 100%;
-        overflow: hidden;
+        margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden;
       }
       a-scene {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100vh !important;
-        width: 100vw !important;
+        position: absolute; top: 0; left: 0; height: 100vh !important; width: 100vw !important;
       }
     </style>
   </head>
@@ -32,7 +24,6 @@
 
       <a-assets>
         <video id="myvideo" 
-               autoplay 
                loop 
                muted 
                playsinline 
@@ -44,15 +35,29 @@
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
       <a-entity mindar-image-target="targetIndex: 0">
-        <a-video src="#myvideo" 
-                 autoplay 
-                 preload="auto"
+        <a-video id="arvideo" src="#myvideo" 
                  position="0 0 0" 
                  width="1.78" 
                  height="1" 
-                 rotation="0 0 0">
-        </a-video>
+                 rotation="0 0 0"></a-video>
       </a-entity>
     </a-scene>
+
+    <script>
+      const video = document.getElementById('myvideo');
+      const scene = document.querySelector('a-scene');
+
+      scene.addEventListener('mindar-image-target-found', () => {
+        // Play the video manually after target detected
+        video.play().catch(e => {
+          console.warn('Video play failed:', e);
+        });
+      });
+
+      scene.addEventListener('mindar-image-target-lost', () => {
+        // Pause video when marker lost (optional)
+        video.pause();
+      });
+    </script>
   </body>
 </html>
