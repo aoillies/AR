@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>AR Video</title>
+    <title>AR Gambar</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
     <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
@@ -23,41 +23,18 @@
              device-orientation-permission-ui="enabled: true">
 
       <a-assets>
-        <video id="myvideo" 
-               loop 
-               muted 
-               playsinline 
-               preload="auto" 
-               webkit-playsinline 
-               src="video.mp4"></video>
+        <img id="splash" src="splash.jpeg" />
       </a-assets>
 
       <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
       <a-entity mindar-image-target="targetIndex: 0">
-        <a-video id="arvideo" src="#myvideo" 
-                 position="0 0 0" 
-                 width="1.78" 
-                 height="1" 
-                 rotation="0 0 0"></a-video>
+        <a-image src="#splash"
+                 position="0 0 0"
+                 width="1.78"
+                 height="1"
+                 rotation="0 0 0"></a-image>
       </a-entity>
     </a-scene>
-
-    <script>
-      const video = document.getElementById('myvideo');
-      const scene = document.querySelector('a-scene');
-
-      scene.addEventListener('mindar-image-target-found', () => {
-        // Play the video manually after target detected
-        video.play().catch(e => {
-          console.warn('Video play failed:', e);
-        });
-      });
-
-      scene.addEventListener('mindar-image-target-lost', () => {
-        // Pause video when marker lost (optional)
-        video.pause();
-      });
-    </script>
   </body>
 </html>
